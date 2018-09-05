@@ -1,0 +1,28 @@
+.drum-machine {
+	background-color: rgba(0,0,10,0.9);
+	margin: 60px auto;
+	max-width: 1000px;
+	height: 550px;
+	border-right: 40px solid rgba(121, 76, 40, .8);
+	border-left: 40px solid rgba(121, 76, 40, .8);
+}
+
+.pad-container {
+	border: 2px solid red;
+	display: flex;
+	width: 50%;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.drum-pad {
+	height: 90px;
+	width: 140px;
+	background-color: rgba(209, 207, 207, 1.0);
+	margin: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 2rem;
+	cursor: pointer;
+}
