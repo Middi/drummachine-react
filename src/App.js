@@ -10,28 +10,21 @@ class Pad extends Component {
     document.removeEventListener('keydown', this.handleKeyPress);
   }
   handleKeyPress = (e) => {
-    const pressed = e.key.toUpperCase();
-    if (pressed === this.props.stuff.keyTrigger) {
-      this.playSample();
+    if (e.key === this.props.stuff.key.toLowerCase()) {
+      this.callSample();
     }
   }
   
-  playSample = () => { 
-    const audio = document.getElementById(this.props.stuff.keyTrigger);
-    audio.currentTime = 0;
-    audio.play();
-  }
-
   callSample = () => {
-    this.props.playSample(this.props.stuff.keyTrigger);
+    this.props.playSample(this.props.stuff.key, this.props.stuff.name);
   }
 
   render() {
     const { stuff } = this.props;
     return (
-        <div className="drum-pad" onClick={this.callSample}>
-					{stuff.keyTrigger}
-					<audio className='clip' id={stuff.keyTrigger} src={stuff.url}></audio>
+        <div className="drum-pad" id={stuff.name} onClick={this.callSample}>
+					{stuff.key}
+					<audio className='clip' id={stuff.key} src={stuff.url}></audio>
 				</div>
     )
   }
@@ -42,7 +35,7 @@ class Padbank extends Component {
 
   render() {
     const pads = this.props.keys.map(item => (
-      <Pad playSample={this.props.playSample} key={item.keyTrigger} stuff={item}/>
+      <Pad playSample={this.props.playSample} key={item.key} stuff={item}/>
     ));
     return(
     <div className="pad-container">
@@ -58,7 +51,7 @@ class Display extends Component {
 		return (
       <div id="display" className="display">
         <div className="lcd">
-
+          {this.props.name}
         </div>
       </div>
     )
@@ -70,65 +63,70 @@ class App extends Component {
   state = {
     keys: [
       {
-        keyTrigger: "Q",
-        id: "Heater-1",
+        key: "Q",
+        name: "Guitar1",
         url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3"
       },
       {
-        keyTrigger: "W",
-        id: "Heater-2",
+        key: "W",
+        name: "Guitar2",
         url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3"
       },
       {
-        keyTrigger: "E",
-        id: "Heater-3",
+        key: "E",
+        name: "Guitar3",
         url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3"
       },
       {
-        keyTrigger: "A",
-        id: "Heater-4",
+        key: "A",
+        name: "Guitar4",
         url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3"
       },
       {
-        keyTrigger: "S",
-        id: "Clap",
+        key: "S",
+        name: "Clap",
         url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3"
       },
       {
-        keyTrigger: "D",
-        id: "Open-HH",
+        key: "D",
+        name: "Open-Hats",
         url: "https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3"
       },
       {
-        keyTrigger: "Z",
-        id: "Kick-n'-Hat",
+        key: "Z",
+        name: "Kick-&-Hat",
         url: "https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3"
       },
       {
-        keyTrigger: "X",
-        id: "Kick",
+        key: "X",
+        name: "Kick",
         url: "https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3"
       },
       {
-        keyTrigger: "C",
-        id: "Closed-HH",
+        key: "C",
+        name: "Closed-Hats",
         url: "https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3"
       }
-    ]
+    ],
+    display: ' '
   }
 
+  updateDisplay = (name) => {
+    this.setState({...this.state, display: name})
+  }
 
-  playSample = (e) => {
-    const audio = document.getElementById(e);
+  playSample = (trigger, name) => {
+    const audio = document.getElementById(trigger);
     audio.currentTime = 0;
     audio.play();
+    this.updateDisplay(name);
   }
 
 	render() {
 		return (
 			<div id="drum-machine" className="drum-machine">
         <Padbank playSample={this.playSample} keys={this.state.keys} />
-        <Display />
+        <Display name={this.state.display} />
 
 			</div>
 		);
