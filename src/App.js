@@ -14,34 +14,9 @@ class Pad extends Component {
       this.callSample();
     }
   }
-
-  state = {
-    active: false
-  }
   
   callSample = () => {
     this.props.playSample(this.props.stuff.key, this.props.stuff.name);
-    this.setState({
-      active: !this.state.active
-    });
-    setTimeout(() => this.setState({
-      active: !this.state.active
-    }), 1000);
-    const el = document.getElementById(this.props.stuff.name);
-    const actStyle = () => {
-      return el.className = 'drum-pad active'
-    }
-
-    const nonStyle = () => {
-      return el.className = 'drum-pad'
-    }
-    if(this.state.active) {
-      actStyle();
-    }
-    else {
-      nonStyle();
-    }
-
   }
 
   render() {
