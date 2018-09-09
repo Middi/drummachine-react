@@ -31,6 +31,10 @@
   border-radius: 4px;
 }
 
+.active {
+  background-color: red;
+}
+
 .display {
   background-color: rgba(67, 70, 82, 1.0);
   width: 340px;
